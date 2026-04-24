@@ -48,7 +48,13 @@ public class Arboles {
     }
     
     public static void IngresarArbol(){
-        JOptionPane.showInputDialog("Ingrese la cadena del arbol");
-        char Vc[];
+        String cadena = JOptionPane.showInputDialog("Ingrese la cadena del arbol");
+        char vc[] = cadena.toCharArray();
+        
+        for(int i=0;i<vc.length;i++){
+            if(Character.isDigit(vc[i])){
+                System.out.println("");
+            }
+        }
     }
 }
