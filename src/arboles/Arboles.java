@@ -9,7 +9,29 @@ import javax.swing.JOptionPane;
 public class Arboles {
 
     public static void main(String[] args) {
+        int opc = 0;
         
+        IngresarArbol();
+        
+        do{
+            opc = Menu();
+            switch(opc){
+                case 1: 
+                    break;
+                case 2:
+                    break;
+                case 3: 
+                    break;
+                case 4: 
+                    break;
+                case 0:
+                    System.out.println("Salir");
+                    break;
+                default:
+                    System.out.println("Opcion incorrecta");
+            }
+            
+        } while( opc!=0 );
     }
     
     public static int Menu(){
