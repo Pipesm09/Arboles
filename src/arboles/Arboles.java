@@ -11,7 +11,11 @@ public class Arboles {
     public static void main(String[] args) {
         int opc = 0;
         
-        IngresarArbol();
+        
+        Arbol A1 = new Arbol();
+        IngresarArbol(A1);
+        
+        
         
         do{
             opc = Menu();
@@ -47,14 +51,11 @@ public class Arboles {
     return opc;
     }
     
-    public static void IngresarArbol(){
+    public static void IngresarArbol(Arbol A1){
         String cadena = JOptionPane.showInputDialog("Ingrese la cadena del arbol");
-        char vc[] = cadena.toCharArray();
-        
-        for(int i=0;i<vc.length;i++){
-            if(Character.isDigit(vc[i])){
-                System.out.println("");
-            }
-        }
+        for(int i = 0;i<cadena.length();i++){
+          char vc = cadena.charAt(i);
+          A1.ConstruirArbol(vc);
+      }
     }
 }
