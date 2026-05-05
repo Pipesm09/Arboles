@@ -19,14 +19,14 @@ public class Arbol {
     public void ConstruirArbol(char vc) {
         Nodo p = Raiz;
         boolean letra = true;
-        if (this.Raiz == null) {
+        if (p == null) {
             Raiz = new Nodo(vc);
         } else {
             while (letra) {
                 //si menor va a la izquierda
                 if (vc < p.getDato()) {
                     //inserta si en la izquierda no hay nada
-                    if (p.getLI() != null) {
+                    if (p.getLI() == null) {
                         Nodo x = new Nodo(vc);
                         p.setLI(x);
                         //una vez que inserte se sale del while
@@ -37,7 +37,7 @@ public class Arbol {
                     }
                     //si no es menor, entonces es mayuor y va a la derecha
                 } else if (vc > p.getDato()) {
-                    if (p.getLD() != null) {
+                    if (p.getLD() == null) {
                         //si no hay nada en la derecha insertar
                         Nodo x = new Nodo(vc);
                         p.setLD(x);
@@ -68,28 +68,48 @@ public class Arbol {
         if (p != null) {
             InOrden(p.getLI());
             mostrar(p);
-            InOrden(p.getLI());
+            InOrden(p.getLD());
         }
     }
 
     public void PosOrden(Nodo p) {
         /*se situa en el hijo izquierdo de la raiz que siempre es el primer nodo que se recibe, luego va abajar hasta que no
         haya mas hijos izquierdos o derechos y mostrar primero los hijos izquierdos, luego los derechos y por ultimo la raiz*/
-        if(p!=null){
+        if (p != null) {
             PosOrden(p.getLI());
-            PosOrden(p.getLI());
+            PosOrden(p.getLD());
             mostrar(p);
         }
     }
+
     public void PreOrden(Nodo p) {
         /*muestra primero la raiz luego baja por el izquierdos y los muestra, luego lo mismo con los derechos*/
-        if(p!=null){   
+        if (p != null) {
             mostrar(p);
             PreOrden(p.getLI());
-            PreOrden(p.getLI());
+            PreOrden(p.getLD());
 
         }
     }
+
+    public void mostrarArbol(Nodo arbol, int cont) {
+        if (arbol == null) {
+            return;
+        } else {
+            // primero derecha
+            mostrarArbol(arbol.getLD(), cont + 1);
+
+            // imprimir espacios
+            for (int i = 0; i < cont; i++) {
+                System.out.print("   ");
+            }
+
+            // imprimir dato
+            System.out.println(arbol.getDato());
+
+            // luego izquierda
+            mostrarArbol(arbol.getLI(), cont + 1);
+        }
+    }
+
 }
-
-

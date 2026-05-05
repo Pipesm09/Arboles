@@ -14,6 +14,7 @@ public class Arboles {
         
         Arbol Arbol1 = new Arbol();
         IngresarArbol(Arbol1);
+        Nodo p = Arbol1.getRaiz();
         
         
         
@@ -21,12 +22,19 @@ public class Arboles {
             opc = Menu();
             switch(opc){
                 case 1: 
+                    Arbol1.InOrden(p);
                     break;
                 case 2:
+                    Arbol1.PreOrden(p);
                     break;
                 case 3: 
+                    Arbol1.PosOrden(p);
                     break;
                 case 4: 
+                    
+                    break;
+                case 6:
+                    Arbol1.mostrarArbol(Arbol1.getRaiz(), 0);
                     break;
                 case 0:
                     System.out.println("Salir");
@@ -39,14 +47,15 @@ public class Arboles {
     }
     
     public static int Menu(){
-        int opc = Integer.parseInt(JOptionPane.showInputDialog("****** Menu Principal ******" 
-                + "1. Recprrodp InOrden."
-                + "2. Recorrido PreOrden"
-                + "3. Recorrido PosOrden"
-                + "4. Eliminar Termino"
-                + "5. Mostrar Arbol"
-                + "0. Salir."
-                + "Ingrese una opcion"));
+        int opc = Integer.parseInt(JOptionPane.showInputDialog("****** Menu Principal ******\n" 
+                + "1. Recorrido InOrden.\n"
+                + "2. Recorrido PreOrden\n"
+                + "3. Recorrido PosOrden\n"
+                + "4. Eliminar Termino\n"
+                + "5. Mostrar Arbol\n"
+                + "6. Mostrar arbol completo.\n"
+                + "0. Salir.\n"
+                + "Ingrese una opcion\n"));
         
     return opc;
     }
