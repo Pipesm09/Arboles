@@ -54,6 +54,7 @@ public class Arboles {
                 + "4. Eliminar Termino\n"
                 + "5. Mostrar Arbol\n"
                 + "6. Mostrar arbol completo.\n"
+                + "7. Mostrar los datos con un solo hijo. \n"
                 + "0. Salir.\n"
                 + "Ingrese una opcion\n"));
         
