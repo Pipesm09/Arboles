@@ -1,10 +1,10 @@
 package arboles;
 
-
 public class Arbol {
+
     private Nodo Raiz;
-    
-    public Arbol(){
+
+    public Arbol() {
         Raiz = null;
     }
 
@@ -15,34 +15,81 @@ public class Arbol {
     public void setRaiz(Nodo Raiz) {
         this.Raiz = Raiz;
     }
-    
-    public  void ConstruirArbol(char vc){
+
+    public void ConstruirArbol(char vc) {
+        Nodo p = Raiz;
         boolean letra = true;
-      if(this.Raiz==null){
-          Raiz = new Nodo(vc);
-      }
-      else{
-          Nodo p = Raiz;
-          Nodo padre = null;
-          while(letra){
-              padre = p;
-              if(p.getDato() < vc){
-                 Nodo x = new Nodo(vc);
-                 p.setLI(x);
-                 p = p.getLI();
-                 letra = false;
-              }
-              else{
-                  if(p.getDato() > vc){
-                      Nodo x = new Nodo(vc);
-                      p.setLD(x);
-                      p = p.getLD();
-                      letra = false; 
-                  }
-              }
-          }
-      }
-      
-      
+        if (this.Raiz == null) {
+            Raiz = new Nodo(vc);
+        } else {
+            while (letra) {
+                //si menor va a la izquierda
+                if (vc < p.getDato()) {
+                    //inserta si en la izquierda no hay nada
+                    if (p.getLI() != null) {
+                        Nodo x = new Nodo(vc);
+                        p.setLI(x);
+                        //una vez que inserte se sale del while
+                        letra = false;
+                    } else {
+                        //quiere decir que hay nodo, entonces simplemente se avanza por izquierda
+                        p = p.getLI();
+                    }
+                    //si no es menor, entonces es mayuor y va a la derecha
+                } else if (vc > p.getDato()) {
+                    if (p.getLD() != null) {
+                        //si no hay nada en la derecha insertar
+                        Nodo x = new Nodo(vc);
+                        p.setLD(x);
+                        letra = false;
+                    } else {
+                        //hay nodo en la derecha, entonces se avanza
+                        p = p.getLD();
+                    }
+                    //si no es mayor ni menor entonces es igual, ya hay nodo simplemente se avanza
+                } else {
+                    letra = false;
+                }
+            }
+        }
+    }
+
+    //recorridos
+    public void mostrar(Nodo p) {
+        if (p != null) {
+            System.out.println(p.getDato() + "");
+        }
+    }
+
+    //hijo izquierdo, raiz, hijo derecho
+    public void InOrden(Nodo p) {
+        /*se situa en el hijo izquierdo de la raiz que siempre es el primer nodo que se recibe, luego va abajar hasta que no
+        haya mas hijos izquierdos y mostrar este, luego desapilara y mostrara la raiz y luego sus hijos derechos*/
+        if (p != null) {
+            InOrden(p.getLI());
+            mostrar(p);
+            InOrden(p.getLI());
+        }
+    }
+
+    public void PosOrden(Nodo p) {
+        /*se situa en el hijo izquierdo de la raiz que siempre es el primer nodo que se recibe, luego va abajar hasta que no
+        haya mas hijos izquierdos o derechos y mostrar primero los hijos izquierdos, luego los derechos y por ultimo la raiz*/
+        if(p!=null){
+            PosOrden(p.getLI());
+            PosOrden(p.getLI());
+            mostrar(p);
+        }
+    }
+    public void PreOrden(Nodo p) {
+        /*muestra primero la raiz luego baja por el izquierdos y los muestra, luego lo mismo con los derechos*/
+        if(p!=null){   
+            mostrar(p);
+            PreOrden(p.getLI());
+            PreOrden(p.getLI());
+
+        }
     }
 }
+
+

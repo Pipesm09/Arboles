@@ -12,8 +12,8 @@ public class Arboles {
         int opc = 0;
         
         
-        Arbol A1 = new Arbol();
-        IngresarArbol(A1);
+        Arbol Arbol1 = new Arbol();
+        IngresarArbol(Arbol1);
         
         
         
@@ -51,11 +51,11 @@ public class Arboles {
     return opc;
     }
     
-    public static void IngresarArbol(Arbol A1){
+    public static void IngresarArbol(Arbol Arbol1){
         String cadena = JOptionPane.showInputDialog("Ingrese la cadena del arbol");
         for(int i = 0;i<cadena.length();i++){
           char vc = cadena.charAt(i);
-          A1.ConstruirArbol(vc);
+          Arbol1.ConstruirArbol(vc);
       }
     }
 }
