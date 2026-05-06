@@ -111,35 +111,91 @@ public class Arbol {
             mostrarArbol(arbol.getLI(), cont + 1);
         }
     }
-        public void mostrarUnHijoPorPreOrden(Nodo r){
-    if(r!=null){
-        //condicion para que tenga un solo hijo es que el padre o tenga el hijo derecho y no el izquierdo o que tenga el izquierdo y no el derecho
-        if(r.getLI()== null && r.getLD()!=null || r.getLD()==null && r.getLI()!=null){
-            System.out.println(r.getDato()+ " ");
+
+    public void mostrarUnHijoPorPreOrden(Nodo r) {
+        if (r != null) {
+            //condicion para que tenga un solo hijo es que el padre o tenga el hijo derecho y no el izquierdo o que tenga el izquierdo y no el derecho
+            if (r.getLI() == null && r.getLD() != null || r.getLD() == null && r.getLI() != null) {
+                System.out.println(r.getDato() + " ");
+            }
+            mostrarUnHijoPorPreOrden(r.getLI());
+            mostrarUnHijoPorPreOrden(r.getLD());
         }
-        mostrarUnHijoPorPreOrden(r.getLI());
-        mostrarUnHijoPorPreOrden(r.getLD());
     }
-    }
+
     //retornara un entero que seran los datos contados
-    public int ContarDatosSoloHijoDerechoPreOrden(Nodo r){
-      if(r==null){
-          //esto hace que si un hijo es null o no es derecho suma +0
-          return 0;
-      }
-      int contador=0;
-      //este nunca vuelve a hacer 0, porque lo que se retorna son copias de el en memoria
-      //condicion para tener un solo hijo derecho es que el izquierdo sea null
-      if(r.getLI()==null && r.getLD()!=null){
-          //si esto ocurre quiere decir que hay +1 hijo derecho
-          return 1;
-      }
-      //recorrido PreOrden en este se pone += porque lo que retornaran en los otros metodos seran numero ya sea 1 o 0
-      contador += ContarDatosSoloHijoDerechoPreOrden(r.getLI());
-      contador += ContarDatosSoloHijoDerechoPreOrden(r.getLD());
+    public int ContarDatosSoloHijoDerechoPreOrden(Nodo r) {
+        if (r == null) {
+            //esto hace que si un hijo es null o no es derecho suma +0
+            return 0;
+        }
+        int contador = 0;
+        //este nunca vuelve a hacer 0, porque lo que se retorna son copias de el en memoria
+        //condicion para tener un solo hijo derecho es que el izquierdo sea null
+        if (r.getLI() == null && r.getLD() != null) {
+            //si esto ocurre quiere decir que hay +1 hijo derecho
+            contador = 1;
+        }
+        //recorrido PreOrden en este se pone += porque lo que retornaran en los otros metodos seran numero ya sea 1 o 0
+        contador += ContarDatosSoloHijoDerechoPreOrden(r.getLI());
+        contador += ContarDatosSoloHijoDerechoPreOrden(r.getLD());
         return contador;
     }
-    public void buscarHermano(char c, int datoABuscar){
-        
+
+    public void buscarHermano(char c, int datoABuscar) {
+
+    }
+
+    public int nivelDeNodo(Nodo raiz, char dato, int nivel) {
+        if (raiz == null) {
+            return -1;
+        }
+
+        if (raiz.getDato() == dato) {
+            return nivel;
+        }
+
+        int izq = nivelDeNodo(raiz.getLI(), dato, nivel + 1);
+        if (izq != -1) {
+            return izq;
+        }
+
+        return nivelDeNodo(raiz.getLD(), dato, nivel + 1);
+    }
+
+    public int alturaDato(Nodo r, char dato) {
+
+        // buscar el nodo
+        if (r == null) {
+            return -1; //Si no existe el nodo
+        }
+
+        if (r.getDato() == dato) {
+            return altura(r);
+        }
+
+        int izq = alturaDato(r.getLI(), dato);
+
+        if (izq != -1) {
+            return izq;
+        }
+
+        return alturaDato(r.getLD(), dato);
+    }
+
+    private int altura(Nodo r) {
+
+        if (r == null) {
+            return -1;
+        }
+
+        int izq = altura(r.getLI());
+        int der = altura(r.getLD());
+
+        if (izq > der) {
+            return izq + 1;
+        } else {
+            return der + 1;
+        }
     }
 }
