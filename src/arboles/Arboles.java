@@ -53,6 +53,11 @@ public class Arboles {
                     }
                     break;
                 case 10:
+                    String input = JOptionPane.showInputDialog("Ingrese el carácter para buscar su hermano:");
+                    char padre = input.charAt(0);
+                    Arbol1.buscarHermano(padre);
+                    break;
+                case 11:
                     letra = JOptionPane
                             .showInputDialog("Ingrese el dato")
                             .toUpperCase()
@@ -87,7 +92,8 @@ public class Arboles {
                 + "7. Mostrar los datos con un solo hijo por PreOrden. \n"
                 + "8. Contar los datos con un solo hijo derecho. \n"
                 + "9. Mostrar el nivel de un dato.\n"
-                + "10. Mostrar la altura de un dato.\n"
+                + "10. Mostrar el hermano de un dato ingresado por el usuario\n"
+                + "11. Mostrar la altura de un dato.\n"
                 + "0. Salir.\n"
                 + "Ingrese una opcion\n"));
 

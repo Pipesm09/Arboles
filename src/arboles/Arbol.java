@@ -142,8 +142,63 @@ public class Arbol {
         return contador;
     }
 
-    public void buscarHermano(char c, int datoABuscar) {
-
+    public void buscarHermano(char datoABuscar) {
+        //en este no hay Pre,In o PosOrden porque no vale la pena recorrer todo el arbol, sabiendo que ya tengo el nodo
+        //por lo que simplemente buscar el padre del dato que decidira cual es el hermano
+        if (this.Raiz == null) {
+            System.out.println("Arbol vacio");
+            return;
+        }
+        //valido si el dato es = a la raiz, esta no tiene hermanos :VVVVVVVVV
+        if (this.Raiz.getDato() == datoABuscar) {
+            System.out.println("La raiz no tiene hermanos");
+            return;
+        }
+        //crear Nodo padre que viene de un metodo para encontrar al padre
+        Nodo padre = encontrarPadre(Raiz, datoABuscar);
+        //verifico si al final del metodo no se encontro padre
+        if (padre == null) {
+            System.out.println("El dato no existe en este arbol (no tiene padre).");
+        } else {
+            //verifico si la liga izq es !=null y es =al dato, porque si es asi el hermano es el derecho
+            if (padre.getLI() != null && padre.getLI().getDato() == datoABuscar) {
+                if (padre.getLD() != null) {
+                    System.out.println("El hermano es: " + padre.getLD().getDato());
+                } else {
+                    System.out.println("El dato no tiene hermano.");
+                }
+            } else {
+                //probar si es el hijo deerecho
+                if (padre.getLD() != null && padre.getLD().getDato() == datoABuscar) {
+                    if (padre.getLI() != null) {
+                        System.out.println("El hermano es: " + padre.getLI().getDato());
+                    } //verificar si siendo el hijo derecho no hay hijo izquierdo
+                    else {
+                        System.out.println("El dato no tiene hermano.");
+                    }
+                }
+            }
+        }
+    }
+    //este metodo como se supone que el arbol esta ordenado, basta con bajar por izquierda o derecha sin necesidad de un recorrida en especifico
+    private Nodo encontrarPadre(Nodo r, char datoABuscar){
+        if(r == null){
+            return null; //confirma que el dato este en el arbol, de lo contaria retornara null
+        }
+        //misma condicion, ver si hijo izq o dere es != null y = al dato a buscar
+        if(r.getLD()!=null && r.getLD().getDato()==datoABuscar){
+            return r;//retornara r como padre
+        }
+        if(r.getLI()!=null && r.getLI().getDato()==datoABuscar){
+        return r; //rotarnara r como padre
+    }
+        //pero si en los hijos de la raiz no esta el dato? se mira sie el dato es > 0 < al nodo actual y se baja entonces por izq o dere
+        if(datoABuscar<r.getDato()){
+            return encontrarPadre(r.getLI(),datoABuscar);
+        } else{
+            return encontrarPadre(r.getLD(),datoABuscar);
+        }
+        
     }
 
     public int nivelDeNodo(Nodo raiz, char dato, int nivel) {
