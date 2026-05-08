@@ -198,4 +198,85 @@ public class Arbol {
             return der + 1;
         }
     }
+
+    public boolean mostrarAncestros(Nodo r, char dato) {
+
+        if (r == null) {
+            return false;
+        }
+
+        // si encontró el dato
+        if (r.getDato() == dato) {
+            return true;
+        }
+
+        // buscar izquierda o derecha
+        if (mostrarAncestros(r.getLI(), dato)
+                || mostrarAncestros(r.getLD(), dato)) {
+
+            // este nodo es ancestro
+            System.out.println(r.getDato());
+
+            return true;
+        }
+
+        return false;
+    }
+    
+    public void insertar(char dato) {
+
+    Nodo p = Raiz;
+    boolean continuar = true;
+
+    // si el árbol está vacío
+    if (Raiz == null) {
+
+        Raiz = new Nodo(dato);
+
+    } else {
+
+        while (continuar) {
+
+            // insertar izquierda
+            if (dato < p.getDato()) {
+
+                if (p.getLI() == null) {
+
+                    Nodo x = new Nodo(dato);
+                    p.setLI(x);
+
+                    continuar = false;
+
+                } else {
+
+                    p = p.getLI();
+                }
+
+            }
+
+            // insertar derecha
+            else if (dato > p.getDato()) {
+
+                if (p.getLD() == null) {
+
+                    Nodo x = new Nodo(dato);
+                    p.setLD(x);
+
+                    continuar = false;
+
+                } else {
+
+                    p = p.getLD();
+                }
+
+            }
+
+            // dato repetido
+            else {
+
+                continuar = false;
+            }
+        }
+    }
+}
 }
