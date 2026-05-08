@@ -71,6 +71,28 @@ public class Arboles {
                         System.out.println("El dato no existe");
                     }
                     break;
+                case 12:
+                    letra = JOptionPane
+                            .showInputDialog("Ingrese el dato")
+                            .toUpperCase()
+                            .charAt(0);
+
+                    boolean existe = Arbol1.mostrarAncestros(
+                            Arbol1.getRaiz(),
+                            letra);
+
+                    if (!existe) {
+                        System.out.println("El dato no existe");
+                    }
+                    break;
+                case 13:
+                    letra = JOptionPane
+                            .showInputDialog("Ingrese dato")
+                            .toUpperCase()
+                            .charAt(0);
+
+                    Arbol1.insertar(letra);
+                    break;
                 case 0:
                     System.out.println("Salir");
                     break;
@@ -94,6 +116,8 @@ public class Arboles {
                 + "9. Mostrar el nivel de un dato.\n"
                 + "10. Mostrar el hermano de un dato ingresado por el usuario\n"
                 + "11. Mostrar la altura de un dato.\n"
+                + "12. Mostrar los ancestros de un dato. \n"
+                + "13. Insertar dato.\n"
                 + "0. Salir.\n"
                 + "Ingrese una opcion\n"));
 

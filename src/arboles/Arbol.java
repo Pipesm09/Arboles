@@ -180,25 +180,26 @@ public class Arbol {
             }
         }
     }
+
     //este metodo como se supone que el arbol esta ordenado, basta con bajar por izquierda o derecha sin necesidad de un recorrida en especifico
-    private Nodo encontrarPadre(Nodo r, char datoABuscar){
-        if(r == null){
+    private Nodo encontrarPadre(Nodo r, char datoABuscar) {
+        if (r == null) {
             return null; //confirma que el dato este en el arbol, de lo contaria retornara null
         }
         //misma condicion, ver si hijo izq o dere es != null y = al dato a buscar
-        if(r.getLD()!=null && r.getLD().getDato()==datoABuscar){
+        if (r.getLD() != null && r.getLD().getDato() == datoABuscar) {
             return r;//retornara r como padre
         }
-        if(r.getLI()!=null && r.getLI().getDato()==datoABuscar){
-        return r; //rotarnara r como padre
-    }
-        //pero si en los hijos de la raiz no esta el dato? se mira sie el dato es > 0 < al nodo actual y se baja entonces por izq o dere
-        if(datoABuscar<r.getDato()){
-            return encontrarPadre(r.getLI(),datoABuscar);
-        } else{
-            return encontrarPadre(r.getLD(),datoABuscar);
+        if (r.getLI() != null && r.getLI().getDato() == datoABuscar) {
+            return r; //rotarnara r como padre
         }
-        
+        //pero si en los hijos de la raiz no esta el dato? se mira sie el dato es > 0 < al nodo actual y se baja entonces por izq o dere
+        if (datoABuscar < r.getDato()) {
+            return encontrarPadre(r.getLI(), datoABuscar);
+        } else {
+            return encontrarPadre(r.getLD(), datoABuscar);
+        }
+
     }
 
     public int nivelDeNodo(Nodo raiz, char dato, int nivel) {
@@ -253,4 +254,82 @@ public class Arbol {
             return der + 1;
         }
     }
+
+    public boolean mostrarAncestros(Nodo r, char dato) {
+
+        if (r == null) {
+            return false;
+        }
+
+        // si encontró el dato
+        if (r.getDato() == dato) {
+            return true;
+        }
+
+        // buscar izquierda o derecha
+        if (mostrarAncestros(r.getLI(), dato)
+                || mostrarAncestros(r.getLD(), dato)) {
+
+            // este nodo es ancestro
+            System.out.println(r.getDato());
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public void insertar(char dato) {
+
+        Nodo p = Raiz;
+        boolean continuar = true;
+
+        // si el árbol está vacío
+        if (Raiz == null) {
+
+            Raiz = new Nodo(dato);
+
+        } else {
+
+            while (continuar) {
+
+                // insertar izquierda
+                if (dato < p.getDato()) {
+
+                    if (p.getLI() == null) {
+
+                        Nodo x = new Nodo(dato);
+                        p.setLI(x);
+
+                        continuar = false;
+
+                    } else {
+
+                        p = p.getLI();
+                    }
+
+                } // insertar derecha
+                else if (dato > p.getDato()) {
+
+                    if (p.getLD() == null) {
+
+                        Nodo x = new Nodo(dato);
+                        p.setLD(x);
+
+                        continuar = false;
+
+                    } else {
+
+                        p = p.getLD();
+                    }
+
+                } // dato repetido
+                else {
+
+                    continuar = false;
+                }
+            }
+        }
+    }
+    
 }
