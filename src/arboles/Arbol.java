@@ -202,19 +202,25 @@ public class Arbol {
     }
 
     public int nivelDeNodo(Nodo raiz, char dato, int nivel) {
+        // Si el nodo actual es null
         if (raiz == null) {
             return -1;
         }
-
+        
+        // Si encuentra el dato ingresado
         if (raiz.getDato() == dato) {
             return nivel;
         }
-
+        
+        //Empieza a buscar por la izquierda
         int izq = nivelDeNodo(raiz.getLI(), dato, nivel + 1);
+        //Si no lo encontró a la izquierda (izq = -1)
         if (izq != -1) {
+            //Si se cumple r.getdato == dato, devuelve nivel aquí
             return izq;
         }
-
+        
+        //Empieza a buscarlo por la derecha 
         return nivelDeNodo(raiz.getLD(), dato, nivel + 1);
     }
 
