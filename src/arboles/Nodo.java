@@ -11,6 +11,7 @@ package arboles;
 public class Nodo {
     private Nodo LI,LD;
     private char Dato;
+    private int FB;
 
     public Nodo(char Dato) {
         this.LI = null;

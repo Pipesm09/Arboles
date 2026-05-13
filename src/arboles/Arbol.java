@@ -180,25 +180,26 @@ public class Arbol {
             }
         }
     }
+
     //este metodo como se supone que el arbol esta ordenado, basta con bajar por izquierda o derecha sin necesidad de un recorrida en especifico
-    private Nodo encontrarPadre(Nodo r, char datoABuscar){
-        if(r == null){
+    private Nodo encontrarPadre(Nodo r, char datoABuscar) {
+        if (r == null) {
             return null; //confirma que el dato este en el arbol, de lo contaria retornara null
         }
         //misma condicion, ver si hijo izq o dere es != null y = al dato a buscar
-        if(r.getLD()!=null && r.getLD().getDato()==datoABuscar){
+        if (r.getLD() != null && r.getLD().getDato() == datoABuscar) {
             return r;//retornara r como padre
         }
-        if(r.getLI()!=null && r.getLI().getDato()==datoABuscar){
-        return r; //rotarnara r como padre
-    }
-        //pero si en los hijos de la raiz no esta el dato? se mira sie el dato es > 0 < al nodo actual y se baja entonces por izq o dere
-        if(datoABuscar<r.getDato()){
-            return encontrarPadre(r.getLI(),datoABuscar);
-        } else{
-            return encontrarPadre(r.getLD(),datoABuscar);
+        if (r.getLI() != null && r.getLI().getDato() == datoABuscar) {
+            return r; //rotarnara r como padre
         }
-        
+        //pero si en los hijos de la raiz no esta el dato? se mira sie el dato es > 0 < al nodo actual y se baja entonces por izq o dere
+        if (datoABuscar < r.getDato()) {
+            return encontrarPadre(r.getLI(), datoABuscar);
+        } else {
+            return encontrarPadre(r.getLD(), datoABuscar);
+        }
+
     }
 
     public int nivelDeNodo(Nodo raiz, char dato, int nivel) {
@@ -206,12 +207,12 @@ public class Arbol {
         if (raiz == null) {
             return -1;
         }
-        
+
         // Si encuentra el dato ingresado
         if (raiz.getDato() == dato) {
             return nivel;
         }
-        
+
         //Empieza a buscar por la izquierda
         int izq = nivelDeNodo(raiz.getLI(), dato, nivel + 1);
         //Si no lo encontró a la izquierda (izq = -1)
@@ -219,7 +220,7 @@ public class Arbol {
             //Si se cumple r.getdato == dato, devuelve nivel aquí
             return izq;
         }
-        
+
         //Empieza a buscarlo por la derecha 
         return nivelDeNodo(raiz.getLD(), dato, nivel + 1);
     }
@@ -274,70 +275,98 @@ public class Arbol {
         // buscar izquierda o derecha
         if (mostrarAncestros(r.getLI(), dato)
                 || mostrarAncestros(r.getLD(), dato)) {
-
             // este nodo es ancestro
             System.out.println(r.getDato());
-
             return true;
         }
-
         return false;
     }
-    
+
     public void insertar(char dato) {
-
-    Nodo p = Raiz;
-    boolean continuar = true;
-
-    // si el árbol está vacío
-    if (Raiz == null) {
-
-        Raiz = new Nodo(dato);
-
-    } else {
-
-        while (continuar) {
-
-            // insertar izquierda
-            if (dato < p.getDato()) {
-
-                if (p.getLI() == null) {
-
-                    Nodo x = new Nodo(dato);
-                    p.setLI(x);
-
-                    continuar = false;
-
-                } else {
-
-                    p = p.getLI();
-                }
-
-            }
-
-            // insertar derecha
-            else if (dato > p.getDato()) {
-
-                if (p.getLD() == null) {
-
-                    Nodo x = new Nodo(dato);
-                    p.setLD(x);
+        Nodo p = Raiz;
+        boolean continuar = true;
+        // si el árbol está vacío
+        if (Raiz == null) {
+            Raiz = new Nodo(dato);
+        } else {
+            while (continuar) {
+                // insertar izquierda
+                if (dato < p.getDato()) {
+                    if (p.getLI() == null) {
+                        Nodo x = new Nodo(dato);
+                        p.setLI(x);
+                        continuar = false;
+                    } else {
+                        p = p.getLI();
+                    }
+                } // insertar derecha
+                else if (dato > p.getDato()) {
+                    if (p.getLD() == null) {
+                        Nodo x = new Nodo(dato);
+                        p.setLD(x);
+                        continuar = false;
+                    } else {
+                        p = p.getLD();
+                    }
+                } // dato repetido
+                else {
 
                     continuar = false;
-
-                } else {
-
-                    p = p.getLD();
                 }
-
-            }
-
-            // dato repetido
-            else {
-
-                continuar = false;
             }
         }
     }
+
+    public void eliminar(char dato) {
+        //metodo que sirve para cuando s elemine la raiz y no tener que redimensionar
+        Raiz = eliminarRecursivo(Raiz, dato);
+    }
+
+    private Nodo eliminarRecursivo(Nodo r, char dato) {
+        if (r == null) {
+            return null;
+        }
+        //como es un arbol ORDENADO simplemente busco el dato en la izquierda o derecha
+        if (dato < r.getDato()) {
+            /*esto sirve para no redimensionar y simplemente lo que se elimine en sus hijos queda ahi y no pasa nada con lo anterior a este*/
+            r.setLI(eliminarRecursivo(r.getLI(), dato));
+        }
+        else if(dato > r.getDato()){
+            /*para lo mismo el hijo derecho retiene todo lo anterior y lo que se modifique despues de este solo afectera al hijo derecho que sera 
+            siendo el hijo derecho*/
+            r.setLD(eliminarRecursivo(r.getLD(), dato));
+        }
+        else//no es ni < ni > entonces es =, esto implica que lo encontramos y necesitamos saber si es hoja o padre
+            //si es hoja
+            if(r.getLI()==null && r.getLD()== null){
+                return null; //esto indica al padre que sigue siendo padre o raiz
+            }
+        //si no se cumple se sabe entonces que uno de sus hijos es !=null ver cual es
+        if(r.getLI()==null){
+            //como el izq==null significa que lo reemplazara su hijo derecho (UNICA ALTERNATIVA)
+            return r.getLD();
+        }
+        else if(r.getLD()==null){
+            //como el dere==null significa que lo reemplzara su hijo izquierdo
+            return r.getLI();
+        }
+        //si no cumple ninguna significa que tiene los dos hijos != null y toco ver cual lo va reemplazar utilizando el protocolo de bajar primero por la derecha
+        r.setDato(enconrarMinimohijo(r.getLD()));
+        //baja por derecha y luego por izquierda dentor del metodo y el que encuentre mas abajo lo vuelve el padre o raiz en el espacio que deja el nodo que eliminamos
+        r.setLD(eliminarRecursivo(r.getLD(), r.getDato()));
+        //esto se hace para "borrar de memoria" al nodo que reemplazar al nodo que borramos, por si este tiene mas hijos y toca reemplazarlo a el
+        return r;
+    }
+
+    private char enconrarMinimohijo(Nodo p) {
+    /*el protocolo indica que debo bajar en sentido contrario (baje una vez por derecha cuando llame al metedo
+    entonces debo bajar por izquierda hasta encontrar el minimo hijo izquierdo*/
+    char min= p.getDato();
+    //recorre hasta que no pueda mas, luego retornara este hijo mas al fondo
+    while(p.getLI()!=null){
+        min=p.getLI().getDato();
+        p=p.getLI();
+    }
+    return min;
 }
 }

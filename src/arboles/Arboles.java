@@ -85,7 +85,15 @@ public class Arboles {
                         System.out.println("El dato no existe");
                     }
                     break;
-                case 13:
+                case 13: // Eliminar Termino
+                    String eliminarInput = JOptionPane.showInputDialog("Ingrese el carácter a eliminar:");
+                    if (eliminarInput != null && !eliminarInput.isEmpty()) {
+                        char letraAEliminar = eliminarInput.charAt(0);
+                        miArbol.eliminar(letraAEliminar);
+                        JOptionPane.showMessageDialog(null, "Operación realizada.");
+                    }
+                    break;
+                case 14:
                     letra = JOptionPane
                             .showInputDialog("Ingrese dato")
                             .toUpperCase()
