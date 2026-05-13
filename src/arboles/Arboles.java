@@ -101,6 +101,12 @@ public class Arboles {
 
                     Arbol1.insertar(letra);
                     break;
+                case 15:
+                    System.out.println("El numero de hojas en el arbol es: "+ Arbol1.contarHojas(Arbol1.getRaiz()));
+                    break;
+                case 16:
+                    System.out.println("El numero de padres en el arbol es: "+ Arbol1.contarPadres(Arbol1.getRaiz()));
+                    break;
                 case 0:
                     System.out.println("Salir");
                     break;
@@ -125,7 +131,10 @@ public class Arboles {
                 + "10. Mostrar el hermano de un dato ingresado por el usuario\n"
                 + "11. Mostrar la altura de un dato.\n"
                 + "12. Mostrar los ancestros de un dato. \n"
-                + "13. Insertar un dato. \n"
+                + "13. Eliminar un dato. \n"
+                + "14. Insertar un dato.\n"
+                + "15. Contar las hojas del arbol.\n"
+                + "16. Contar los padres del arbol. \n"
                 + "0. Salir.\n"
                 + "Ingrese una opcion\n"));
 

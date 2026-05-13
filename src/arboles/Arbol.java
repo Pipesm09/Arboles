@@ -397,4 +397,38 @@ public class Arbol {
         }
         return min;
     }
+
+    public int contarHojas(Nodo r) {
+
+        if (r == null) {
+            return 0;
+        }
+
+        // si no tiene hijos es hoja
+        if (r.getLI() == null && r.getLD() == null) {
+            return 1;
+        }
+
+        return contarHojas(r.getLI())
+                + contarHojas(r.getLD());
+    }
+
+    public int contarPadres(Nodo r) {
+
+        if (r == null) {
+            return 0;
+        }
+
+        int contador = 0;
+
+        // si tiene al menos un hijo
+        if (r.getLI() != null || r.getLD() != null) {
+            contador = 1;
+        }
+
+        contador += contarPadres(r.getLI());
+        contador += contarPadres(r.getLD());
+
+        return contador;
+    }
 }
