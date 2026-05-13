@@ -30,7 +30,7 @@ public class Arboles {
 
                     break;
                 case 6:
-                    Arbol1.mostrarArbol(Arbol1.getRaiz(), 0);
+                    Arbol1.mostrarArbol();
                     break;
                 case 7:
                     Arbol1.mostrarUnHijoPorPreOrden(Arbol1.getRaiz());
@@ -89,7 +89,7 @@ public class Arboles {
                     String eliminarInput = JOptionPane.showInputDialog("Ingrese el carácter a eliminar:");
                     if (eliminarInput != null && !eliminarInput.isEmpty()) {
                         char letraAEliminar = eliminarInput.charAt(0);
-                        miArbol.eliminar(letraAEliminar);
+                        Arbol1.eliminar(letraAEliminar);
                         JOptionPane.showMessageDialog(null, "Operación realizada.");
                     }
                     break;

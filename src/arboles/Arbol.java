@@ -92,23 +92,54 @@ public class Arbol {
         }
     }
 
-    public void mostrarArbol(Nodo arbol, int cont) {
-        if (arbol == null) {
-            return;
+    public void mostrarArbol() {
+        if (Raiz == null) {
+            System.out.println("            >> El árbol está vacío <<");
         } else {
-            // primero derecha
-            mostrarArbol(arbol.getLD(), cont + 1);
+            // La raíz no tiene "lado" ni "prefijo", empezamos desde ahí
+            imprimirNodoMelo(Raiz, "", true, "RAIZ");
+        }
+        System.out.println("\n      =========================================\n");
+    }
 
-            // imprimir espacios
-            for (int i = 0; i < cont; i++) {
-                System.out.print("   ");
-            }
+    private void imprimirNodoMelo(Nodo n, String prefijo, boolean esUltimo, String lado) {
+        if (n == null) {
+            return;
+        }
 
-            // imprimir dato
-            System.out.println(arbol.getDato());
+        // 1. Identificamos si es Padre [P] o Hoja (L)
+        boolean tieneHijos = (n.getLI() != null || n.getLD() != null);
+        String decorador = tieneHijos ? "[Padre:] " : "(Termina rama) ";
 
-            // luego izquierda
-            mostrarArbol(arbol.getLI(), cont + 1);
+        // 2. Imprimimos la línea del nodo
+        System.out.print(prefijo);
+
+        // Dibujamos el conector de rama (excepto para la raíz principal)
+        if (!lado.equals("RAIZ")) {
+            System.out.print(esUltimo ? "└── " : "├── ");
+            System.out.print(lado + " ──► "); // Flecha indicadora de dirección
+        }
+
+        // Imprimimos el dato con su decorador
+        System.out.println(decorador + n.getDato());
+
+        // 3. Preparamos el prefijo para los hijos (mantiene las líneas verticales)
+        String nuevoPrefijo = prefijo + (lado.equals("RAIZ") ? "" : (esUltimo ? "    " : "│   "));
+
+        // 4. Lógica de recursividad para los hijos
+        // Procesamos primero el DERECHO (aparece arriba) y luego el IZQUIERDO (abajo)
+        // El derecho es el "último" de su nivel SOLO si no hay izquierdo después de él.
+        boolean tieneDerecho = (n.getLD() != null);
+        boolean tieneIzquierdo = (n.getLI() != null);
+
+        if (tieneDerecho) {
+            // Es último solo si no hay hermano izquierdo
+            imprimirNodoMelo(n.getLD(), nuevoPrefijo, !tieneIzquierdo, "D");
+        }
+
+        if (tieneIzquierdo) {
+            // El izquierdo siempre es el último en mostrarse de su nivel
+            imprimirNodoMelo(n.getLI(), nuevoPrefijo, true, "I");
         }
     }
 
@@ -330,43 +361,40 @@ public class Arbol {
         if (dato < r.getDato()) {
             /*esto sirve para no redimensionar y simplemente lo que se elimine en sus hijos queda ahi y no pasa nada con lo anterior a este*/
             r.setLI(eliminarRecursivo(r.getLI(), dato));
-        }
-        else if(dato > r.getDato()){
+        } else if (dato > r.getDato()) {
             /*para lo mismo el hijo derecho retiene todo lo anterior y lo que se modifique despues de este solo afectera al hijo derecho que sera 
             siendo el hijo derecho*/
             r.setLD(eliminarRecursivo(r.getLD(), dato));
+        } else//no es ni < ni > entonces es =, esto implica que lo encontramos y necesitamos saber si es hoja o padre
+        //si es hoja
+        if (r.getLI() == null && r.getLD() == null) {
+            return null; //esto indica al padre que sigue siendo padre o raiz
         }
-        else//no es ni < ni > entonces es =, esto implica que lo encontramos y necesitamos saber si es hoja o padre
-            //si es hoja
-            if(r.getLI()==null && r.getLD()== null){
-                return null; //esto indica al padre que sigue siendo padre o raiz
-            }
         //si no se cumple se sabe entonces que uno de sus hijos es !=null ver cual es
-        if(r.getLI()==null){
+        if (r.getLI() == null) {
             //como el izq==null significa que lo reemplazara su hijo derecho (UNICA ALTERNATIVA)
             return r.getLD();
-        }
-        else if(r.getLD()==null){
+        } else if (r.getLD() == null) {
             //como el dere==null significa que lo reemplzara su hijo izquierdo
             return r.getLI();
         }
         //si no cumple ninguna significa que tiene los dos hijos != null y toco ver cual lo va reemplazar utilizando el protocolo de bajar primero por la derecha
-        r.setDato(enconrarMinimohijo(r.getLD()));
+        r.setDato(encontrarMinimohijo(r.getLD()));
         //baja por derecha y luego por izquierda dentor del metodo y el que encuentre mas abajo lo vuelve el padre o raiz en el espacio que deja el nodo que eliminamos
         r.setLD(eliminarRecursivo(r.getLD(), r.getDato()));
         //esto se hace para "borrar de memoria" al nodo que reemplazar al nodo que borramos, por si este tiene mas hijos y toca reemplazarlo a el
         return r;
     }
 
-    private char enconrarMinimohijo(Nodo p) {
-    /*el protocolo indica que debo bajar en sentido contrario (baje una vez por derecha cuando llame al metedo
+    private char encontrarMinimohijo(Nodo p) {
+        /*el protocolo indica que debo bajar en sentido contrario (baje una vez por derecha cuando llame al metedo
     entonces debo bajar por izquierda hasta encontrar el minimo hijo izquierdo*/
-    char min= p.getDato();
-    //recorre hasta que no pueda mas, luego retornara este hijo mas al fondo
-    while(p.getLI()!=null){
-        min=p.getLI().getDato();
-        p=p.getLI();
+        char min = p.getDato();
+        //recorre hasta que no pueda mas, luego retornara este hijo mas al fondo
+        while (p.getLI() != null) {
+            min = p.getLI().getDato();
+            p = p.getLI();
+        }
+        return min;
     }
-    return min;
-}
 }
