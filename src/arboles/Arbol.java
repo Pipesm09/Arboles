@@ -365,25 +365,27 @@ public class Arbol {
             /*para lo mismo el hijo derecho retiene todo lo anterior y lo que se modifique despues de este solo afectera al hijo derecho que sera 
             siendo el hijo derecho*/
             r.setLD(eliminarRecursivo(r.getLD(), dato));
-        } else//no es ni < ni > entonces es =, esto implica que lo encontramos y necesitamos saber si es hoja o padre
-        //si es hoja
-        if (r.getLI() == null && r.getLD() == null) {
-            return null; //esto indica al padre que sigue siendo padre o raiz
+        } else {//no es ni < ni > entonces es =, esto implica que lo encontramos y necesitamos saber si es hoja o padre
+            //si es hoja
+            if (r.getLI() == null && r.getLD() == null) {
+                return null; //esto indica al padre que sigue siendo padre o raiz
+            }
+            //si no se cumple se sabe entonces que uno de sus hijos es !=null ver cual es
+            if (r.getLI() == null) {
+                //como el izq==null significa que lo reemplazara su hijo derecho (UNICA ALTERNATIVA)
+                return r.getLD();
+            } else if (r.getLD() == null) {
+                //como el dere==null significa que lo reemplzara su hijo izquierdo
+                return r.getLI();
+            }
+            //si no cumple ninguna significa que tiene los dos hijos != null y toco ver cual lo va reemplazar utilizando el protocolo de bajar primero por la derecha
+            r.setDato(encontrarMinimohijo(r.getLD()));
+            //baja por derecha y luego por izquierda dentor del metodo y el que encuentre mas abajo lo vuelve el padre o raiz en el espacio que deja el nodo que eliminamos
+            r.setLD(eliminarRecursivo(r.getLD(), r.getDato()));
+            //esto se hace para "borrar de memoria" al nodo que reemplazar al nodo que borramos, por si este tiene mas hijos y toca reemplazarlo a el
         }
-        //si no se cumple se sabe entonces que uno de sus hijos es !=null ver cual es
-        if (r.getLI() == null) {
-            //como el izq==null significa que lo reemplazara su hijo derecho (UNICA ALTERNATIVA)
-            return r.getLD();
-        } else if (r.getLD() == null) {
-            //como el dere==null significa que lo reemplzara su hijo izquierdo
-            return r.getLI();
-        }
-        //si no cumple ninguna significa que tiene los dos hijos != null y toco ver cual lo va reemplazar utilizando el protocolo de bajar primero por la derecha
-        r.setDato(encontrarMinimohijo(r.getLD()));
-        //baja por derecha y luego por izquierda dentor del metodo y el que encuentre mas abajo lo vuelve el padre o raiz en el espacio que deja el nodo que eliminamos
-        r.setLD(eliminarRecursivo(r.getLD(), r.getDato()));
-        //esto se hace para "borrar de memoria" al nodo que reemplazar al nodo que borramos, por si este tiene mas hijos y toca reemplazarlo a el
         return r;
+
     }
 
     private char encontrarMinimohijo(Nodo p) {
