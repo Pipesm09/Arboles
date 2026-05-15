@@ -122,6 +122,12 @@ public class Arboles {
                     Arbol1.mostrarDescendientes(dato);
 
                     break;
+                case 19:
+                    String datoP = JOptionPane.showInputDialog("¿De quién quieres ver los primos hermanos?");
+                    if (datoP != null && !datoP.isEmpty()) {
+                        Arbol1.mostrarPrimosHermanos(datoP.charAt(0));
+                    }
+                    break;
                 case 0:
                     System.out.println("Salir");
                     break;
@@ -152,6 +158,7 @@ public class Arboles {
                 + "16. Contar los padres del arbol. \n"
                 + "17. Ver si el arbol es perfecto. \n"
                 + "18. Mostrar y contar descendientes de un dato.\n"
+                + "19. Mostrar los primos hermanos.\n"
                 + "0. Salir.\n"
                 + "Ingrese una opcion\n"));
 

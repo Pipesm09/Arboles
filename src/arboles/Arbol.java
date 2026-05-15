@@ -649,7 +649,7 @@ public class Arbol {
         return esPerfecto(r.getLI(), profundidad, nivelActual + 1)
                 && esPerfecto(r.getLD(), profundidad, nivelActual + 1);
     }
-    
+
     public void mostrarDescendientes(char dato) {
 
         // Buscamos el nodo que contiene el dato ingresado
@@ -737,5 +737,54 @@ public class Arbol {
         return 1
                 + contarDescendientesRecursivo(r.getLI())
                 + contarDescendientesRecursivo(r.getLD());
+    }
+
+    public void mostrarPrimosHermanos(char datoBuscado) {
+        // 1. Caso base: El árbol está vacío o buscamos a la raíz (la raíz no tiene primos)
+        if (Raiz == null || Raiz.getDato() == datoBuscado) {
+            System.out.println("No tiene primos hermanos.");
+            return;
+        }
+
+        // 2. Necesitamos el NIVEL del dato
+        int nivelObjetivo = obtenerNivel(Raiz, datoBuscado, 0);
+
+        // 3. Necesitamos al PADRE para saber a quién NO mostrar (evitar hermanos)
+        Nodo padreDelDato = encontrarPadre(Raiz, datoBuscado);
+
+        // Los primos hermanos solo existen del nivel 2 hacia abajo
+        if (nivelObjetivo < 2 || padreDelDato == null) {
+            System.out.println("No tiene primos hermanos (está en nivel 0 o 1).");
+        } else {
+            System.out.print("Primos hermanos de '" + datoBuscado + "': ");
+            // 4. Buscamos en el nivel pero filtrando al padre
+            buscarPrimosRecursivo(Raiz, padreDelDato, nivelObjetivo, 0);
+            System.out.println();
+        }
+    }
+
+// Método auxiliar que recorre el árbol buscando el nivel
+    private void buscarPrimosRecursivo(Nodo actual, Nodo padreProhibido, int nivelDestino, int nivelActual) {
+        if (actual == null) {
+            return;
+        }
+
+        // Nos detenemos en el NIVEL DEL TÍO (un nivel antes que el primo)
+        if (nivelActual == nivelDestino - 1) {
+            // Si este nodo NO es el padre de nuestro dato, entonces sus hijos son los primos
+            if (actual != padreProhibido) {
+                if (actual.getLI() != null) {
+                    System.out.print(actual.getLI().getDato() + " ");
+                }
+                if (actual.getLD() != null) {
+                    System.out.print(actual.getLD().getDato() + " ");
+                }
+            }
+            return;
+        }
+
+        // Seguir bajando por el árbol
+        buscarPrimosRecursivo(actual.getLI(), padreProhibido, nivelDestino, nivelActual + 1);
+        buscarPrimosRecursivo(actual.getLD(), padreProhibido, nivelDestino, nivelActual + 1);
     }
 }
