@@ -652,65 +652,88 @@ public class Arbol {
     
     public void mostrarDescendientes(char dato) {
 
+        // Buscamos el nodo que contiene el dato ingresado
         Nodo nodo = buscarNodo(Raiz, dato);
 
+        // Si no existe el nodo, se informa y se termina el método
         if (nodo == null) {
-
             System.out.println("El dato no existe en el árbol");
             return;
         }
 
+        // Mensaje inicial
         System.out.println("Descendientes de " + dato + ":");
 
+        // Se recorren primero los hijos del nodo encontrado (izquierdo y derecho), ya que los descendientes son todos sus subárboles
         mostrarDescendientesRecursivo(nodo.getLI());
         mostrarDescendientesRecursivo(nodo.getLD());
     }
 
+// Recorrido para mostrar descendientes
     private void mostrarDescendientesRecursivo(Nodo r) {
 
+        // Caso base: si el nodo es nulo, se detiene la recursión
         if (r != null) {
 
+            // Se muestra el dato del nodo actual
             System.out.println(r.getDato());
 
+            // Se sigue recorriendo todo el subárbol izquierdo
             mostrarDescendientesRecursivo(r.getLI());
+
+            // Se sigue recorriendo todo el subárbol derecho
             mostrarDescendientesRecursivo(r.getLD());
         }
     }
 
+// Buscar un nodo en el arbol
     private Nodo buscarNodo(Nodo r, char dato) {
 
+        // Caso base: nodo nulo significa que no se encontró
         if (r == null) {
             return null;
         }
 
+        // Si el nodo actual es el que buscamos, lo retornamos
         if (r.getDato() == dato) {
             return r;
         }
 
+        // Como es un árbol binario de búsqueda: si el dato es menor, se busca en el subárbol izquierdo
         if (dato < r.getDato()) {
             return buscarNodo(r.getLI(), dato);
-        } else {
+        } // si es mayor, se busca en el subárbol derecho
+        else {
             return buscarNodo(r.getLD(), dato);
         }
     }
 
+// Contar descendientes
     public int contarDescendientes(char dato) {
 
+        // Buscamos el nodo objetivo
         Nodo nodo = buscarNodo(Raiz, dato);
 
+        // Si no existe, retornamos -1 como indicador de error
         if (nodo == null) {
             return -1;
         }
 
+        // Restamos 1 porque el método recursivo cuenta también el nodo raíz
         return contarDescendientesRecursivo(nodo) - 1;
     }
 
+// Contar nodos en el sub arbol
     private int contarDescendientesRecursivo(Nodo r) {
 
+        // Caso base: nodo nulo no cuenta
         if (r == null) {
             return 0;
         }
 
+        // Se cuenta el nodo actual (1)
+        // más todos los nodos del subárbol izquierdo
+        // más todos los nodos del subárbol derecho
         return 1
                 + contarDescendientesRecursivo(r.getLI())
                 + contarDescendientesRecursivo(r.getLD());
