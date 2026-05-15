@@ -624,7 +624,6 @@ public class Arbol {
         }
     }
 
-// Método auxiliar para encontrar la profundidad de referencia (extremo izquierdo)
     private int profundidadIzquierda(Nodo nodo) {
         int d = 0;
         while (nodo != null) {
@@ -634,25 +633,19 @@ public class Arbol {
         return d;
     }
 
-// Método recursivo que valida la estructura
     private boolean esPerfecto(Nodo r, int profundidad, int nivelActual) {
-        // Caso base: Si es nulo, por definición este camino está bien
         if (r == null) {
             return true;
         }
 
-        // Revisamos si el nodo es una hoja (no tiene hijos)
         if (r.getLI() == null && r.getLD() == null) {
-            // Para que sea perfecto, esta hoja DEBE estar en el nivel máximo
             return (profundidad == nivelActual + 1);
         }
 
-        // Si el nodo tiene un solo hijo, el árbol ya NO es perfecto
         if (r.getLI() == null || r.getLD() == null) {
             return false;
         }
 
-        // Si tiene dos hijos, revisamos recursivamente que ambos subárboles sean perfectos
         return esPerfecto(r.getLI(), profundidad, nivelActual + 1)
                 && esPerfecto(r.getLD(), profundidad, nivelActual + 1);
     }
