@@ -433,4 +433,36 @@ public class Arbol {
 
         return contador;
     }
+    //FB  xdddxd, para esto necesito priumero el hijo con mas altura
+    private int obtenerAltura(Nodo r){
+        if(r==null){
+            return 0;//es una hoja
+        }
+        return Math.max(obtenerAltura(r.getLI()), obtenerAltura(r.getLD()))+1;
+        //baja tanto por izquierda como por derecha que si no es una hoja !=null el +1 es el que le suma la altura con respecto a la raiz
+        //luego los compara y manda el maximo
+    }
+    //metodo FB
+    public int obtenerFactorBalance(Nodo r){
+        if(r==null){
+            return 0; //balanceado el nodo
+        }
+        //mando al hijo izquierdo -hijo derecho y este me dara si lo tengo que balancear o no 
+        return obtenerAltura(r.getLI()) - obtenerAltura(r.getLD());
+    }
+    //rotacion simple a la derecha, cuando el padre es +2 y si hijo mas alto  es +1 con nodo r=desbalanceado
+    private Nodo R_D(Nodo r){
+        Nodo nuevaRaiz=r.getLI(); //conecto por el hijo izquierdo al padre para que no se pierda
+        //ademas se liga por la izquierda porque tiene el mayor peso siempre por eso es +2
+        r.setLI(nuevaRaiz.getLD());//mando lo que este a la derecha del nuevo padre a que sea ahora lo que este como hijo izquierdo de el anterior padre para que no se desbalancee 
+        nuevaRaiz.setLD(r);
+        return nuevaRaiz; //para mirar si lo que se modifico es la raiz principal
+    }
+        //rotacion simple a la izquierda, cuando el padre es -2 y su hijo mas alto es -1 con nodo r=desbalanceado
+    private Nodo R_I (Nodo r){
+        Nodo nuevaRaiz=r.getLD();//lo mismo
+        r.setLD(nuevaRaiz.getLI());//aqui se liga lo que este a la izquierda de la nuevaRaiz ya que la raiz o padre anterior se setteara en ese lugar
+        nuevaRaiz.setLI(r);
+        return nuevaRaiz;
+    }
 }
