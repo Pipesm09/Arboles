@@ -523,10 +523,80 @@ public class Arbol {
                 return R_D_D(r);
             case 3:
                 return R_I(r);
-            case 4: 
-                return R_D_I (r);
-            default: 
+            case 4:
+                return R_D_I(r);
+            default:
                 return r;
+        }
+    }
+
+    public void mostrarPrimos(char datoBuscado) {
+        if (Raiz == null || Raiz.getDato() == datoBuscado) {
+            System.out.println("No tiene primos.");
+            return;
+        }
+
+        // Paso 1: Obtener el nivel del dato (ya tenemos este método)
+        int nivelCousin = obtenerNivel(Raiz, datoBuscado, 0);
+
+        // Paso 2: Obtener el padre del dato (ya tenemos este método)
+        Nodo padreDelDato = encontrarPadre(Raiz, datoBuscado);
+
+        if (nivelCousin <= 1 || padreDelDato == null) {
+            System.out.println("El dato no tiene primos (es la raíz o un hijo directo de la raíz).");
+        } else {
+            System.out.print("Los primos de '" + datoBuscado + "' son: ");
+            // Paso 3: Buscar en el árbol nodos en ese nivel que no sean hijos de ese padre
+            buscarCousinsRecursivo(Raiz, padreDelDato, nivelCousin, 0);
+            System.out.println();
+        }
+    }
+
+// Método auxiliar para imprimir los primos
+    private void buscarCousinsRecursivo(Nodo actual, Nodo padreProhibido, int nivelDestino, int nivelActual) {
+        if (actual == null) {
+            return;
+        }
+
+        // Nos detenemos un nivel ANTES de los primos para revisar los padres
+        if (nivelActual == nivelDestino - 1) {
+            // Si este nodo NO es el padre del dato buscado, sus hijos son primos
+            if (actual != padreProhibido) {
+                if (actual.getLI() != null) {
+                    System.out.print(actual.getLI().getDato() + " ");
+                }
+                if (actual.getLD() != null) {
+                    System.out.print(actual.getLD().getDato() + " ");
+                }
+            }
+            return;
+        }
+
+        // Seguimos bajando por el árbol
+        buscarCousinsRecursivo(actual.getLI(), padreProhibido, nivelDestino, nivelActual + 1);
+        buscarCousinsRecursivo(actual.getLD(), padreProhibido, nivelDestino, nivelActual + 1);
+    }
+    // Este es el método que busca el nivel de un dato específico
+// Retorna el número del nivel (0, 1, 2...) o -1 si el dato no existe.
+
+    public int obtenerNivel(Nodo actual, char datoBuscado, int nivelActual) {
+        // 1. Si llegamos a un espacio vacío, el dato no está
+        if (actual == null) {
+            return -1;
+        }
+
+        // 2. Si lo encontramos, devolvemos el contador que traemos
+        if (actual.getDato() == datoBuscado) {
+            return nivelActual;
+        }
+
+        // 3. Si no es este, buscamos en los hijos aumentando el nivel en 1
+        if (datoBuscado < actual.getDato()) {
+            // Buscamos por la izquierda
+            return obtenerNivel(actual.getLI(), datoBuscado, nivelActual + 1);
+        } else {
+            // Buscamos por la derecha
+            return obtenerNivel(actual.getLD(), datoBuscado, nivelActual + 1);
         }
     }
 }
