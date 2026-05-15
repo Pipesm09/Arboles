@@ -110,6 +110,18 @@ public class Arboles {
                 case 17:
                     Arbol1.verificarSiEsPerfecto();
                     break;
+                case 18:
+
+                    char dato = JOptionPane
+                            .showInputDialog("Ingrese el dato")
+                            .toUpperCase()
+                            .charAt(0);
+
+                    System.out.println("Cantidad de descendientes: " + Arbol1.contarDescendientes(dato));
+
+                    Arbol1.mostrarDescendientes(dato);
+
+                    break;
                 case 0:
                     System.out.println("Salir");
                     break;
@@ -139,6 +151,7 @@ public class Arboles {
                 + "15. Contar las hojas del arbol.\n"
                 + "16. Contar los padres del arbol. \n"
                 + "17. Ver si el arbol es perfecto. \n"
+                + "18. Mostrar y contar descendientes de un dato.\n"
                 + "0. Salir.\n"
                 + "Ingrese una opcion\n"));
 

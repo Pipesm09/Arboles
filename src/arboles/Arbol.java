@@ -611,6 +611,7 @@ public class Arbol {
             return obtenerNivel(actual.getLD(), datoBuscado, nivelActual + 1);
         }
     }
+
     public void verificarSiEsPerfecto() {
         // 1. Calculamos la profundidad de la hoja más a la izquierda
         int d = profundidadIzquierda(Raiz);
@@ -654,5 +655,71 @@ public class Arbol {
         // Si tiene dos hijos, revisamos recursivamente que ambos subárboles sean perfectos
         return esPerfecto(r.getLI(), profundidad, nivelActual + 1)
                 && esPerfecto(r.getLD(), profundidad, nivelActual + 1);
+    }
+    
+    public void mostrarDescendientes(char dato) {
+
+        Nodo nodo = buscarNodo(Raiz, dato);
+
+        if (nodo == null) {
+
+            System.out.println("El dato no existe en el árbol");
+            return;
+        }
+
+        System.out.println("Descendientes de " + dato + ":");
+
+        mostrarDescendientesRecursivo(nodo.getLI());
+        mostrarDescendientesRecursivo(nodo.getLD());
+    }
+
+    private void mostrarDescendientesRecursivo(Nodo r) {
+
+        if (r != null) {
+
+            System.out.println(r.getDato());
+
+            mostrarDescendientesRecursivo(r.getLI());
+            mostrarDescendientesRecursivo(r.getLD());
+        }
+    }
+
+    private Nodo buscarNodo(Nodo r, char dato) {
+
+        if (r == null) {
+            return null;
+        }
+
+        if (r.getDato() == dato) {
+            return r;
+        }
+
+        if (dato < r.getDato()) {
+            return buscarNodo(r.getLI(), dato);
+        } else {
+            return buscarNodo(r.getLD(), dato);
+        }
+    }
+
+    public int contarDescendientes(char dato) {
+
+        Nodo nodo = buscarNodo(Raiz, dato);
+
+        if (nodo == null) {
+            return -1;
+        }
+
+        return contarDescendientesRecursivo(nodo) - 1;
+    }
+
+    private int contarDescendientesRecursivo(Nodo r) {
+
+        if (r == null) {
+            return 0;
+        }
+
+        return 1
+                + contarDescendientesRecursivo(r.getLI())
+                + contarDescendientesRecursivo(r.getLD());
     }
 }
