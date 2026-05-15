@@ -740,51 +740,45 @@ public class Arbol {
     }
 
     public void mostrarPrimosHermanos(char datoBuscado) {
-        // 1. Caso base: El árbol está vacío o buscamos a la raíz (la raíz no tiene primos)
         if (Raiz == null || Raiz.getDato() == datoBuscado) {
-            System.out.println("No tiene primos hermanos.");
+            System.out.println("La raíz no tiene primos hermanos.");
             return;
         }
 
-        // 2. Necesitamos el NIVEL del dato
-        int nivelObjetivo = obtenerNivel(Raiz, datoBuscado, 0);
+        // 1. Encontrar el Padre
+        Nodo padre = encontrarPadre(Raiz, datoBuscado);
+        if (padre == null || padre == Raiz) {
+            System.out.println("No tiene primos hermanos (es hijo de la raíz).");
+            return;
+        }
 
-        // 3. Necesitamos al PADRE para saber a quién NO mostrar (evitar hermanos)
-        Nodo padreDelDato = encontrarPadre(Raiz, datoBuscado);
+        // 2. Encontrar el Abuelo (el padre del padre)
+        Nodo abuelo = encontrarPadre(Raiz, padre.getDato());
+        if (abuelo == null) {
+            System.out.println("No tiene abuelo, por lo tanto no hay primos hermanos.");
+            return;
+        }
 
-        // Los primos hermanos solo existen del nivel 2 hacia abajo
-        if (nivelObjetivo < 2 || padreDelDato == null) {
-            System.out.println("No tiene primos hermanos (está en nivel 0 o 1).");
+        // 3. Identificar al Tío (el otro hijo del abuelo)
+        Nodo tio = null;
+        if (abuelo.getLI() == padre) {
+            tio = abuelo.getLD(); // Si mi padre es el izquierdo, mi tío es el derecho
         } else {
-            System.out.print("Primos hermanos de '" + datoBuscado + "': ");
-            // 4. Buscamos en el nivel pero filtrando al padre
-            buscarPrimosRecursivo(Raiz, padreDelDato, nivelObjetivo, 0);
+            tio = abuelo.getLI(); // Si mi padre es el derecho, mi tío es el izquierdo
+        }
+
+        // 4. Mostrar los hijos del Tío (Estos son los verdaderos primos hermanos)
+        if (tio == null || (tio.getLI() == null && tio.getLD() == null)) {
+            System.out.println("No tiene primos hermanos (el tío no existe o no tiene hijos).");
+        } else {
+            System.out.print("Primos hermanos reales de '" + datoBuscado + "': ");
+            if (tio.getLI() != null) {
+                System.out.print(tio.getLI().getDato() + " ");
+            }
+            if (tio.getLD() != null) {
+                System.out.print(tio.getLD().getDato() + " ");
+            }
             System.out.println();
         }
-    }
-
-// Método auxiliar que recorre el árbol buscando el nivel
-    private void buscarPrimosRecursivo(Nodo actual, Nodo padreProhibido, int nivelDestino, int nivelActual) {
-        if (actual == null) {
-            return;
-        }
-
-        // Nos detenemos en el NIVEL DEL TÍO (un nivel antes que el primo)
-        if (nivelActual == nivelDestino - 1) {
-            // Si este nodo NO es el padre de nuestro dato, entonces sus hijos son los primos
-            if (actual != padreProhibido) {
-                if (actual.getLI() != null) {
-                    System.out.print(actual.getLI().getDato() + " ");
-                }
-                if (actual.getLD() != null) {
-                    System.out.print(actual.getLD().getDato() + " ");
-                }
-            }
-            return;
-        }
-
-        // Seguir bajando por el árbol
-        buscarPrimosRecursivo(actual.getLI(), padreProhibido, nivelDestino, nivelActual + 1);
-        buscarPrimosRecursivo(actual.getLD(), padreProhibido, nivelDestino, nivelActual + 1);
     }
 }
