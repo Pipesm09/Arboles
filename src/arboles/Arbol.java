@@ -738,6 +738,7 @@ public class Arbol {
                 + contarDescendientesRecursivo(r.getLI())
                 + contarDescendientesRecursivo(r.getLD());
     }
+    //es solo mostrar los nodos del mismo nivel y qeu sus padres sean hermanos para eso deben de tener el abuelo...
 
     public void mostrarPrimosHermanos(char datoBuscado) {
         if (Raiz == null || Raiz.getDato() == datoBuscado) {
