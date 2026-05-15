@@ -433,36 +433,100 @@ public class Arbol {
 
         return contador;
     }
-    //FB  xdddxd, para esto necesito priumero el hijo con mas altura
-    private int obtenerAltura(Nodo r){
-        if(r==null){
+//FB  xdddxd, para esto necesito priumero el hijo con mas altura
+
+    private int obtenerAltura(Nodo r) {
+        if (r == null) {
             return 0;//es una hoja
         }
-        return Math.max(obtenerAltura(r.getLI()), obtenerAltura(r.getLD()))+1;
+        return Math.max(obtenerAltura(r.getLI()), obtenerAltura(r.getLD())) + 1;
         //baja tanto por izquierda como por derecha que si no es una hoja !=null el +1 es el que le suma la altura con respecto a la raiz
         //luego los compara y manda el maximo
     }
+
     //metodo FB
-    public int obtenerFactorBalance(Nodo r){
-        if(r==null){
+    public int obtenerFactorBalance(Nodo r) {
+        if (r == null) {
             return 0; //balanceado el nodo
         }
         //mando al hijo izquierdo -hijo derecho y este me dara si lo tengo que balancear o no 
         return obtenerAltura(r.getLI()) - obtenerAltura(r.getLD());
     }
+
     //rotacion simple a la derecha, cuando el padre es +2 y si hijo mas alto  es +1 con nodo r=desbalanceado
-    private Nodo R_D(Nodo r){
-        Nodo nuevaRaiz=r.getLI(); //conecto por el hijo izquierdo al padre para que no se pierda
+    private Nodo R_D(Nodo r) {
+        Nodo nuevaRaiz = r.getLI(); //conecto por el hijo izquierdo al padre para que no se pierda
         //ademas se liga por la izquierda porque tiene el mayor peso siempre por eso es +2
         r.setLI(nuevaRaiz.getLD());//mando lo que este a la derecha del nuevo padre a que sea ahora lo que este como hijo izquierdo de el anterior padre para que no se desbalancee 
         nuevaRaiz.setLD(r);
         return nuevaRaiz; //para mirar si lo que se modifico es la raiz principal
     }
-        //rotacion simple a la izquierda, cuando el padre es -2 y su hijo mas alto es -1 con nodo r=desbalanceado
-    private Nodo R_I (Nodo r){
-        Nodo nuevaRaiz=r.getLD();//lo mismo
+    //rotacion simple a la izquierda, cuando el padre es -2 y su hijo mas alto es -1 con nodo r=desbalanceado
+
+    private Nodo R_I(Nodo r) {
+        Nodo nuevaRaiz = r.getLD();//lo mismo
         r.setLD(nuevaRaiz.getLI());//aqui se liga lo que este a la izquierda de la nuevaRaiz ya que la raiz o padre anterior se setteara en ese lugar
         nuevaRaiz.setLI(r);
         return nuevaRaiz;
+    }
+
+    //rotacion doble a la derecha, consta de una raiz=2 e hijo mas alto=-1, entonces primero se endereza su hijo izquierdo (el que tiene mas peso)
+    //para luego hacer otro movimiento ahora con el nieto que sera la nueva raiz
+    private Nodo R_D_D(Nodo r) {
+        r.setLI(R_I(r.getLI()));//aqui es donde se endereza la primera parte
+        return R_D(r);
+    }
+
+    //rotacion doble a la izquierda, consta de una raiz=-2 e hijo mas alto=+1, entonces primero se enderezara el hijo derecho, luego el nieto pasara  a hacer la nueva raiz
+    private Nodo R_D_I(Nodo r) {
+        r.setLD(R_D(r.getLD()));//aqui se le manda solo para que enderece al hijo mas alto (el derecho donde esta todo el peso)
+        return R_I(r);
+    }
+
+    //falta determinar cual caso corresponde
+    private int determinarCaso(Nodo r) {
+        //basicamente se ve si FB es +2 0 -2, para pasara haber si hijo mas alto si es del mismo signo=rotacion simple, sino rotacion doble
+        int FB = obtenerFactorBalance(r);
+        if (FB == 2) {
+            int FBhijoMasAlto = obtenerAltura(r.getLI());//se manda el hijo con mas peso que como es +2 tiene que ser si o si el hijo izquierdo
+            if (FBhijoMasAlto >= 1) {
+                return 1;//primero caso R_D
+            } else {
+                return 2;//segunfo caso R_D_D
+            }
+        } else if (FB == -2) {
+            int FBhijoMasAlto = obtenerAltura(r.getLD()); //ibtenemos la altura del hijo derecho (tiene mas peso)
+            if (FBhijoMasAlto <= 0) {
+                return 3;//tercer caos R_I
+            } else {
+                return 4;
+            }
+        }
+        return 0; //esta balanceado
+    }
+
+    //switch cases, recorriendo en PosOrden, porque el insertar no es iterativo y el metodo FB se debe hacer en cada momento y como no se sabe la altura de un padre o una raiz
+    //sin conocer los hijos, se comienza con los Hijos (PosOrden)
+    public Nodo aplicarBalanceo(Nodo r) {
+        if (r == null) {
+            return null;
+        }
+        //recorrido PosOrden
+        aplicarBalanceo(r.getLI());
+        aplicarBalanceo(r.getLD());
+        //una vez que desapile s eencontrar con el padre que es este el que decide si hay o no balanceo
+        int caso = determinarCaso(r);//r=padre
+        switch (caso) {
+            case 1:
+                return R_D(r);
+            case 2:
+                return R_D_D(r);
+            case 3:
+                return R_I(r);
+            case 4: 
+                return R_D_I (r);
+            default: 
+                return r;
+        }
     }
 }

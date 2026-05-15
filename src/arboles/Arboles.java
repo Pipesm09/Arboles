@@ -146,6 +146,7 @@ public class Arboles {
         for (int i = 0; i < cadena.length(); i++) {
             char vc = cadena.charAt(i);
             Arbol1.ConstruirArbol(vc);
+            Arbol1.aplicarBalanceo(Arbol1.getRaiz());//aqui se aplica el balanceo papu :V
         }
     }
 }
