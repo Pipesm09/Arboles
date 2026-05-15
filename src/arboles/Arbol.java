@@ -485,24 +485,36 @@ public class Arbol {
 
     //falta determinar cual caso corresponde
     private int determinarCaso(Nodo r) {
-        //basicamente se ve si FB es +2 0 -2, para pasara haber si hijo mas alto si es del mismo signo=rotacion simple, sino rotacion doble
+
         int FB = obtenerFactorBalance(r);
+
+        // Desbalanceado hacia izquierda
         if (FB == 2) {
-            int FBhijoMasAlto = obtenerAltura(r.getLI());//se manda el hijo con mas peso que como es +2 tiene que ser si o si el hijo izquierdo
-            if (FBhijoMasAlto >= 1) {
-                return 1;//primero caso R_D
-            } else {
-                return 2;//segunfo caso R_D_D
+
+            int FBHijo = obtenerFactorBalance(r.getLI());
+
+            // Rotación simple derecha
+            if (FBHijo >= 0) {
+                return 1;
+            } // Rotación doble derecha
+            else {
+                return 2;
             }
-        } else if (FB == -2) {
-            int FBhijoMasAlto = obtenerAltura(r.getLD()); //ibtenemos la altura del hijo derecho (tiene mas peso)
-            if (FBhijoMasAlto <= 0) {
-                return 3;//tercer caos R_I
-            } else {
+        } // Desbalanceado hacia derecha
+        else if (FB == -2) {
+
+            int FBHijo = obtenerFactorBalance(r.getLD());
+
+            // Rotación simple izquierda
+            if (FBHijo <= 0) {
+                return 3;
+            } // Rotación doble izquierda
+            else {
                 return 4;
             }
         }
-        return 0; //esta balanceado
+
+        return 0;
     }
 
     //switch cases, recorriendo en PosOrden, porque el insertar no es iterativo y el metodo FB se debe hacer en cada momento y como no se sabe la altura de un padre o una raiz
@@ -512,8 +524,8 @@ public class Arbol {
             return null;
         }
         //recorrido PosOrden
-        aplicarBalanceo(r.getLI());
-        aplicarBalanceo(r.getLD());
+        r.setLI(aplicarBalanceo(r.getLI()));
+        r.setLD(aplicarBalanceo(r.getLD()));
         //una vez que desapile s eencontrar con el padre que es este el que decide si hay o no balanceo
         int caso = determinarCaso(r);//r=padre
         switch (caso) {

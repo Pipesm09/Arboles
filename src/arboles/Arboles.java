@@ -102,10 +102,10 @@ public class Arboles {
                     Arbol1.insertar(letra);
                     break;
                 case 15:
-                    System.out.println("El numero de hojas en el arbol es: "+ Arbol1.contarHojas(Arbol1.getRaiz()));
+                    System.out.println("El numero de hojas en el arbol es: " + Arbol1.contarHojas(Arbol1.getRaiz()));
                     break;
                 case 16:
-                    System.out.println("El numero de padres en el arbol es: "+ Arbol1.contarPadres(Arbol1.getRaiz()));
+                    System.out.println("El numero de padres en el arbol es: " + Arbol1.contarPadres(Arbol1.getRaiz()));
                     break;
                 case 0:
                     System.out.println("Salir");
@@ -146,7 +146,7 @@ public class Arboles {
         for (int i = 0; i < cadena.length(); i++) {
             char vc = cadena.charAt(i);
             Arbol1.ConstruirArbol(vc);
-            Arbol1.aplicarBalanceo(Arbol1.getRaiz());//aqui se aplica el balanceo papu :V
+            Arbol1.setRaiz(Arbol1.aplicarBalanceo(Arbol1.getRaiz()));//aqui se aplica el balanceo papu :V
         }
     }
 }
