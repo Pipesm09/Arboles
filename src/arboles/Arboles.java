@@ -27,18 +27,15 @@ public class Arboles {
                     Arbol1.PosOrden(Arbol1.getRaiz());
                     break;
                 case 4:
-
-                    break;
-                case 6:
                     Arbol1.mostrarArbol();
                     break;
-                case 7:
+                case 5:
                     Arbol1.mostrarUnHijoPorPreOrden(Arbol1.getRaiz());
                     break;
-                case 8:
+                case 6:
                     System.out.println(Arbol1.ContarDatosSoloHijoDerechoPreOrden(Arbol1.getRaiz()));
                     break;
-                case 9:
+                case 7:
                     char letra = JOptionPane
                             .showInputDialog("Ingrese el dato")
                             .toUpperCase()
@@ -52,12 +49,12 @@ public class Arboles {
                         System.out.println("El dato no existe en el arbol");
                     }
                     break;
-                case 10:
+                case 8:
                     String input = JOptionPane.showInputDialog("Ingrese el carácter para buscar su hermano:");
                     char padre = input.charAt(0);
                     Arbol1.buscarHermano(padre);
                     break;
-                case 11:
+                case 9:
                     letra = JOptionPane
                             .showInputDialog("Ingrese el dato")
                             .toUpperCase()
@@ -71,7 +68,7 @@ public class Arboles {
                         System.out.println("El dato no existe");
                     }
                     break;
-                case 12:
+                case 10:
                     letra = JOptionPane
                             .showInputDialog("Ingrese el dato")
                             .toUpperCase()
@@ -85,7 +82,7 @@ public class Arboles {
                         System.out.println("El dato no existe");
                     }
                     break;
-                case 13: // Eliminar Termino
+                case 11: // Eliminar Termino
                     String eliminarInput = JOptionPane.showInputDialog("Ingrese el carácter a eliminar:");
                     if (eliminarInput != null && !eliminarInput.isEmpty()) {
                         char letraAEliminar = eliminarInput.charAt(0);
@@ -93,7 +90,7 @@ public class Arboles {
                         JOptionPane.showMessageDialog(null, "Operación realizada.");
                     }
                     break;
-                case 14:
+                case 12:
                     letra = JOptionPane
                             .showInputDialog("Ingrese dato")
                             .toUpperCase()
@@ -101,16 +98,16 @@ public class Arboles {
 
                     Arbol1.insertar(letra);
                     break;
-                case 15:
+                case 13:
                     System.out.println("El numero de hojas en el arbol es: " + Arbol1.contarHojas(Arbol1.getRaiz()));
                     break;
-                case 16:
+                case 14:
                     System.out.println("El numero de padres en el arbol es: " + Arbol1.contarPadres(Arbol1.getRaiz()));
                     break;
-                case 17:
+                case 15:
                     Arbol1.verificarSiEsPerfecto();
                     break;
-                case 18:
+                case 16:
 
                     char dato = JOptionPane
                             .showInputDialog("Ingrese el dato")
@@ -122,7 +119,7 @@ public class Arboles {
                     Arbol1.mostrarDescendientes(dato);
 
                     break;
-                case 19:
+                case 17:
                     String datoP = JOptionPane.showInputDialog("¿De quién quieres ver los primos hermanos?");
                     if (datoP != null && !datoP.isEmpty()) {
                         Arbol1.mostrarPrimosHermanos(datoP.charAt(0));
@@ -143,22 +140,20 @@ public class Arboles {
                 + "1. Recorrido InOrden.\n"
                 + "2. Recorrido PreOrden\n"
                 + "3. Recorrido PosOrden\n"
-                + "4. Eliminar Termino\n"
-                + "5. Mostrar Arbol\n"
-                + "6. Mostrar arbol completo.\n"
-                + "7. Mostrar los datos con un solo hijo por PreOrden. \n"
-                + "8. Contar los datos con un solo hijo derecho. \n"
-                + "9. Mostrar el nivel de un dato.\n"
-                + "10. Mostrar el hermano de un dato ingresado por el usuario\n"
-                + "11. Mostrar la altura de un dato.\n"
-                + "12. Mostrar los ancestros de un dato. \n"
-                + "13. Eliminar un dato. \n"
-                + "14. Insertar un dato.\n"
-                + "15. Contar las hojas del arbol.\n"
-                + "16. Contar los padres del arbol. \n"
-                + "17. Ver si el arbol es perfecto. \n"
-                + "18. Mostrar y contar descendientes de un dato.\n"
-                + "19. Mostrar los primos hermanos.\n"
+                + "4. Mostrar arbol completo.\n"
+                + "5. Mostrar los datos con un solo hijo por PreOrden. \n"
+                + "6. Contar los datos con un solo hijo derecho. \n"
+                + "7. Mostrar el nivel de un dato.\n"
+                + "8. Mostrar el hermano de un dato ingresado por el usuario\n"
+                + "9. Mostrar la altura de un dato.\n"
+                + "10. Mostrar los ancestros de un dato. \n"
+                + "11. Eliminar un dato. \n"
+                + "12. Insertar un dato.\n"
+                + "13. Contar las hojas del arbol.\n"
+                + "14. Contar los padres del arbol. \n"
+                + "15. Ver si el arbol es perfecto. \n"
+                + "16. Mostrar y contar descendientes de un dato.\n"
+                + "17. Mostrar los primos hermanos.\n"
                 + "0. Salir.\n"
                 + "Ingrese una opcion\n"));
 
